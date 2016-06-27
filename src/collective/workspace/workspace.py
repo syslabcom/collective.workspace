@@ -145,10 +145,12 @@ def handle_workspace_added(context, event):
     workspace_groups = get_workspace_groups_plugin(context)
     for group_name in workspace.available_groups:
         group_id = '{}:{}'.format(group_name.encode('utf8'), context.UID())
-        workspace_groups.addGroup(
-            group_id,
-            title='{}: {}'.format(group_name.encode('utf8'), context.Title()),
-        )
+        if group_id not in workspace_groups._groups:
+            workspace_groups.addGroup(
+                group_id,
+                title='{}: {}'.format(
+                    group_name.encode('utf8'), context.Title()),
+            )
 
 
 @adapter(IHasWorkspace, IObjectModifiedEvent)
